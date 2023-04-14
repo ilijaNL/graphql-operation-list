@@ -20,7 +20,10 @@ const config: CodegenConfig = {
   documents: ['src/**/*.graphql'],
   generates: {
     './src/__generated__/gql.ts': {
-      plugins: ['typescript', 'typescript-operations', 'graphql-codegen-typed-operation'],
+      plugins: ['typescript', 'typescript-operations'],
+    },
+    './src/__generated__/operations.json': {
+      plugins: ['graphql-operation-list'],
     },
   },
 };
@@ -34,7 +37,7 @@ For nextjs: `/pages/api/proxy.ts`
 ```ts
 import { createNextHandler } from 'graphql-ops-proxy/lib/nextjs';
 import { GeneratedOperation } from 'graphql-ops-proxy/lib/proxy';
-import { OPERATIONS } from '@/__generated__/gql';
+import { OPERATIONS } from '@/__generated__/operations.json';
 
 const handler = createNextHandler(new URL('https://localhost:4000/graphql'), OPERATIONS as Array<GeneratedOperation>, {
   withCache: {
@@ -44,27 +47,4 @@ const handler = createNextHandler(new URL('https://localhost:4000/graphql'), OPE
 });
 
 export default handler;
-```
-
-### Sending request to the proxy
-
-```typescript
-import { GetDataDocument, TypedOperation } from '@/__generated__/gql';
-
-async function send<TResult, TVars>(op: TypedOperation<TResult, TVars>, vars: TVars) {
-  // can be optimzed by using op.operationType === 'query' to create a get request
-  return await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      v: vars,
-      op: op.operation,
-    }),
-  }).then((d) => d.json());
-}
-
-// res will be typed
-const res = await send(GetDataDocument, {});
 ```
