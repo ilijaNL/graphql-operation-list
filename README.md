@@ -37,7 +37,7 @@ For nextjs: `/pages/api/proxy.ts`
 ```ts
 import { createNextHandler } from 'graphql-ops-proxy/lib/nextjs';
 import { GeneratedOperation } from 'graphql-ops-proxy/lib/proxy';
-import { OPERATIONS } from '@/__generated__/operations.json';
+import OPERATIONS from '@/__generated__/operations.json';
 
 const handler = createNextHandler(new URL('https://localhost:4000/graphql'), OPERATIONS as Array<GeneratedOperation>, {
   withCache: {
