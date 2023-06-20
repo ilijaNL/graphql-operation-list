@@ -1,4 +1,5 @@
-# Generate Graphql Operation List
+# Generate Graphql Operation List (Archived)
+**This repository is archived due to https://github.com/ilijaNL/graphql-codegen-on-operations which provides more flexibility**
 
 A plugin for graphql-codegen. This plugin is useful when you using [grapqhl-ops-proxy](https://github.com/ilijaNL/graphql-ops-proxy)
 
